@@ -1,0 +1,53 @@
+CREATE TABLE tbl_Address(
+	Address_id int IDENTITY(1,1) NOT NULL Primary key,
+	First_name varchar(100)  CHECK  ((First_name like '%[ABCDEFGHIJKLMNOPQRSTUVWXYZ]%')) NOT NULL,
+	Last_name varchar(100)  CHECK  ((Last_name like '%[ABCDEFGHIJKLMNOPQRSTUVWXYZ]%')) NULL,
+	Email varchar(15) NULL,
+	Phonenumber [varchar](10) NULL,
+	age int NULL CHECK (age>=18)
+)
+
+--drop table tbl_Address
+create proc sp_insertAddress(
+@First_name varchar(100),
+@Last_name varchar(100),
+@Email varchar(15),
+@Phonenumber varchar(10),
+@age int  
+)
+As
+begin
+ --if exists(select 1 from tbl_Address where First_name=@First_name)
+ --begin
+insert into tbl_Address values(@First_name,@Last_name,@Email,@Phonenumber,@age)
+return
+end
+--end
+
+
+
+create proc sp_updateAddress(
+@Address_id int,
+@First_name varchar(100)
+)
+as
+begin
+update tbl_Address set First_name=@First_name where Address_id=@Address_id
+end
+
+create proc sp_deleteAddress(
+@Address_id int
+)
+as
+begin
+delete from tbl_Address  where Address_id=@Address_id
+end
+
+
+alter proc sp_searchAddress(
+@Address_id int
+)
+as
+begin
+select * from tbl_Address  where Address_id=@Address_id
+end
